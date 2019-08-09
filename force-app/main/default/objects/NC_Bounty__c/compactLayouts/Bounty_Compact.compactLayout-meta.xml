@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bounty_Compact</fullName>
+    <fields>Unit__c</fields>
+    <fields>B_Start_Date__c</fields>
+    <fields>B_End_Date__c</fields>
+    <fields>Measure_Unit__c</fields>
+    <fields>Value__c</fields>
+    <label>Bounty Compact</label>
+</CompactLayout>
