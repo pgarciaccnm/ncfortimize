@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>THigh</fullName>
+    <active>true</active>
+    <errorConditionFormula>GCT_Target_Achieved_Low__c &gt;  GCT_Target_Achieved_High__c</errorConditionFormula>
+    <errorDisplayField>GCT_Target_Achieved_High__c</errorDisplayField>
+    <errorMessage>The Target Achieved Low must be lower than Target Achieved High</errorMessage>
+</ValidationRule>

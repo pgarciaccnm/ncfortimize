@@ -9,35 +9,26 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Contact__c</field>
+                <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Target_Achieved_Low__c</field>
+                <behavior>Required</behavior>
+                <field>Graduated_Commission__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Paid_per_1_of_Target_Earned__c</field>
+                <behavior>Required</behavior>
+                <field>GCT_Target_Achieved_Low__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Year__c</field>
+                <behavior>Required</behavior>
+                <field>GCT_Target_Achieved_High__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>GCT_Target_Earned_Rate__c</field>
             </layoutItems>
         </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Active__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Target_Achieved_High__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Bonus_Level__c</field>
-            </layoutItems>
-        </layoutColumns>
+        <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
@@ -75,7 +66,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h0U000000SOV6</masterLabel>
+        <masterLabel>00h0U000000SOrl</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

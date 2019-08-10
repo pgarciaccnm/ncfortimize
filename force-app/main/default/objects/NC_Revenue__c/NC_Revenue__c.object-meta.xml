@@ -152,13 +152,13 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>Bonus Commission</label>
+    <label>Revenue</label>
     <nameField>
-        <displayFormat>BC-{0000}</displayFormat>
-        <label>Bonus Commission Name</label>
+        <displayFormat>R-{0000}</displayFormat>
+        <label>Revenue Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Bonus Commissions</pluralLabel>
+    <pluralLabel>Revenues</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

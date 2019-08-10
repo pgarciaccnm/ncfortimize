@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Target_Achieved_High__c</fullName>
+    <fullName>GCT_Target_Earned_Rate__c</fullName>
     <externalId>false</externalId>
-    <label>Target Achieved High</label>
+    <label>Target Earned Rate</label>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>
     <trackTrending>false</trackTrending>
-    <type>Percent</type>
+    <type>Currency</type>
 </CustomField>
