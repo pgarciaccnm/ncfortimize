@@ -68,6 +68,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>NC_Lease__c.L_Earned__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>NC_Lease__c.L_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -86,6 +91,11 @@
         <field>NC_Unit__c.Revenue__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NC_Unit__c.U_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>NC_Bonus_Commission__c-Bonus Commission Layout</layout>
     </layoutAssignments>
@@ -97,9 +107,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>NC_Property__c-Property Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>NC_UnitLeaseAssociation__c-Unit Lease Association Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>NC_Unit__c-Unit Layout</layout>
@@ -138,15 +145,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>NC_Property__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>NC_UnitLeaseAssociation__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
