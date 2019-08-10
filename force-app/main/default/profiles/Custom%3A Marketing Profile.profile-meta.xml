@@ -18,11 +18,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>NC_Bonus_Commission__c.Goal__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>NC_Bonus_Commission__c.Paid_per_1_of_Target_Earned__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -63,12 +58,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>NC_Lease__c.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>NC_Lease__c.L_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>NC_Lease__c.L_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NC_Lease__c.L_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>NC_Property__c.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NC_Unit__c.Revenue__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
