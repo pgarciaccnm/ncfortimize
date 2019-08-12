@@ -153,9 +153,38 @@ public with sharing class NC_LeaseTest {
 
        Decimal totalCost = NC_Lease.calculateTotalCost(l);
 
-       System.assertEquals(90000, totalCost);
+       System.assertEquals(450000, totalCost);
 
    }
+    
+    @isTest
+    public static void getAllRevenueByContactSingleTrue(){
+       
+        NC_Graduated_Commission__c gc = new NC_Graduated_Commission__c();
+        gc.GD_Start_Date__c = Date.valueOf('2019-01-01');
+        gc.GC_End_Date__c	= Date.valueOf('2019-12-31');
+        gc.Contact__c		= createContact().Id;
+        
+        Test.startTest();
+        insert createLList();
+        
+        
+        System.debug('nc6.5>>'+NC_Lease.getAllRevenueByContact(gc));
+        
+        Test.stopTest();
+        
+        System.assert(true);
+    }
+    
+    @isTest
+    public static Contact createContact(){
+        
+        Contact c = new Contact(FirstName = 'Pedro', LastName='Garcia');
+
+        insert c;
+        
+        return c;
+    }
 
     @isTest
    public static List<NC_Lease__c> createLList(){
@@ -181,17 +210,19 @@ public with sharing class NC_LeaseTest {
         NC_Lease__c l1 = new NC_Lease__c();
 
         l1.L_Start_Date__c = Date.valueOf('2019-01-01');
-        l1.L_End_Date__c = Date.valueOf('2019-01-31');
+        l1.L_End_Date__c = Date.valueOf('2019-05-31');
         l1.Contact__c = c.Id;
         l1.Unit__c = u.Id;
+       	l1.L_Amount__c	= NC_Lease.calculateTotalCost( l1);
 
         lList.add(l1);
 
         NC_Lease__c l2 = new NC_Lease__c();
-        l2.L_Start_Date__c = Date.valueOf('2019-02-01');
-        l2.L_End_Date__c = Date.valueOf('2019-02-28');
+        l2.L_Start_Date__c = Date.valueOf('2019-06-01');
+        l2.L_End_Date__c = Date.valueOf('2019-06-30');
         l2.Contact__c = c.Id;
         l2.Unit__c = u.Id;
+       l2.L_Amount__c	= NC_Lease.calculateTotalCost( l2);
 
         lList.add(l2);
 

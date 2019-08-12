@@ -12,23 +12,17 @@
  * 1.0    2019-08-10, 1:54:10 p.m.   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
 **/
 public with sharing class NC_Lease {
-    public NC_Lease() {
-
-    }
-
-    
-
 
 
     public static Decimal getAllRevenueByContact(NC_Graduated_Commission__c gc){
 
-        List<AggregateResult> agLease = [Select SUM(L_Amount__c) amountSum from NC_Lease__c where L_Start_Date__c <= :gc.GD_Start_Date__c and L_End_Date__c > :gc.GD_Start_Date__c and Contact__c =: gc.Contact__c];
+        List<NC_Lease__c> agLease = [Select L_Amount__c from NC_Lease__c where L_Start_Date__c <= :gc.GD_Start_Date__c and L_End_Date__c > :gc.GD_Start_Date__c and Contact__c =: gc.Contact__c];
 
         Decimal currentTotal = 0;
 
-        for (AggregateResult ar : agLease)  {
+        for (NC_Lease__c ar : agLease)  {
           
-          currentTotal = currentTotal + (decimal) ar.get('amountSum');
+          currentTotal = currentTotal + (decimal) ar.L_Amount__c;
 
         }
         return currentTotal;
