@@ -4,7 +4,7 @@
  * @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
  * @Group              : 
  * @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
- * @Last Modified On   : 2019-08-12, 7:21:01 a.m.
+ * @Last Modified On   : 2019-08-12, 8:47:28 a.m.
  * @Modification Log   : 
  *==============================================================================
  * Ver         Date                     Author      		      Modification
@@ -17,9 +17,15 @@ public with sharing class NC_Lease {
     }
 
     /**
-    This calculates the Earn based on Graduated Commission and Unit
+    This calculates the total cost based of leasing unit
      */
-    public static void calculateEarn(NC_Lease__c lease){
+    public static Decimal calculateTotalCost(NC_Lease__c lease){
+
+        Integer numberDaysDue = lease.L_Start_Date__c.daysBetween(lease.L_End_Date__c);
+
+        NC_Unit__c unit = [Select id, Revenue__c from NC_Unit__c Where Id =: lease.Unit__c];
+
+        return (numberDaysDue * unit.Revenue__c);
 
     }
 
