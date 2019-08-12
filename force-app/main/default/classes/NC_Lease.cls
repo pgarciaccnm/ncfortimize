@@ -4,7 +4,7 @@
  * @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
  * @Group              : 
  * @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
- * @Last Modified On   : 2019-08-12, 8:47:28 a.m.
+ * @Last Modified On   : 2019-08-12, 4:29:41 p.m.
  * @Modification Log   : 
  *==============================================================================
  * Ver         Date                     Author      		      Modification
@@ -14,6 +14,24 @@
 public with sharing class NC_Lease {
     public NC_Lease() {
 
+    }
+
+    
+
+
+
+    public static Decimal getAllRevenueByContact(NC_Graduated_Commission__c gc){
+
+        List<AggregateResult> agLease = [Select SUM(L_Amount__c) amountSum from NC_Lease__c where L_Start_Date__c <= :gc.GD_Start_Date__c and L_End_Date__c > :gc.GD_Start_Date__c and Contact__c =: gc.Contact__c];
+
+        Decimal currentTotal = 0;
+
+        for (AggregateResult ar : agLease)  {
+          
+          currentTotal = currentTotal + (decimal) ar.get('amountSum');
+
+        }
+        return currentTotal;
     }
 
     /**

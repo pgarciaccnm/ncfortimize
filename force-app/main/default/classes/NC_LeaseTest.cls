@@ -4,7 +4,7 @@
  * @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
  * @Group              : 
  * @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
- * @Last Modified On   : 2019-08-12, 7:46:36 a.m.
+ * @Last Modified On   : 2019-08-12, 8:52:46 a.m.
  * @Modification Log   : 
  *==============================================================================
  * Ver         Date                     Author      		      Modification
@@ -136,7 +136,28 @@ public with sharing class NC_LeaseTest {
 
    }
 
-     @isTest
+   @isTest
+   public static void calculateTotalCostSingleFalse(){
+
+       NC_Lease__c l = createLList()[0];
+
+       Decimal totalCost = NC_Lease.calculateTotalCost(l);
+
+       System.assertNotEquals(900, totalCost);
+
+   }
+   @isTest
+   public static void calculateTotalCostSingleTrue(){
+
+       NC_Lease__c l = createLList()[0];
+
+       Decimal totalCost = NC_Lease.calculateTotalCost(l);
+
+       System.assertEquals(90000, totalCost);
+
+   }
+
+    @isTest
    public static List<NC_Lease__c> createLList(){
 
         Contact c = new Contact(FirstName = 'Pedro', LastName='Garcia');

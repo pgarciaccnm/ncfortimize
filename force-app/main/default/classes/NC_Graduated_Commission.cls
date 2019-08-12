@@ -4,7 +4,7 @@
  * @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
  * @Group              : 
  * @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
- * @Last Modified On   : 2019-08-12, 7:12:08 a.m.
+ * @Last Modified On   : 2019-08-12, 4:30:33 p.m.
  * @Modification Log   : 
  *==============================================================================
  * Ver         Date                     Author      		      Modification
@@ -14,6 +14,29 @@
 public with sharing class NC_Graduated_Commission {
 
 
+    public static NC_Graduated_Commission__c getCurrentGraduatedCommission(NC_Lease__c lease){
+
+        NC_Graduated_Commission__c gc = [select id, GC_Goal__c from NC_Graduated_Commission__c where GD_Start_Date__c <= :lease.L_Start_Date__c and GC_End_Date__c > :lease.L_Start_Date__c and Contact__c = :lease.Contact__c Limit 1 ];
+
+        return gc;
+        
+    }
+
+    public static void calculateCommission(NC_Lease__c lease){
+
+        NC_Graduated_Commission__c gc = getCurrentGraduatedCommission(lease);
+        
+        Decimal currenttotal = NC_Lease.getAllRevenueByContact( gc);
+
+        Decimal accumulatedPercentage = (currenttotal * 100)/gc.GC_Goal__c;
+
+        GC_Tier__c selectedTier = [select id, gct_target_earned_rate__c, gct_target_achieved_low__c, gct_target_achieved_high__c, 
+            graduated_commission__r.Gc_goal__c,graduated_commission__r.GD_Start_Date__c, graduated_commission__r.GC_End_Date__c from gc_tier__c
+            where   gct_target_achieved_low__c <=:accumulatedPercentage and gct_target_achieved_high__c > :accumulatedPercentage ][0];
+
+        System.debug('nc4.4>>'+selectedTier);
+
+    }
     /**
      * 
      * This validates the overlapping Dates
