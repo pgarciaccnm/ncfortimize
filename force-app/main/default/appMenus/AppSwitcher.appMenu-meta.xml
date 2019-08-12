@@ -64,4 +64,8 @@
         <name>NC_Manage</name>
         <type>CustomApplication</type>
     </appMenuItems>
+    <appMenuItems>
+        <name>NC_Rep</name>
+        <type>CustomApplication</type>
+    </appMenuItems>
 </AppMenu>
