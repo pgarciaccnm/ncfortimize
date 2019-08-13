@@ -14,7 +14,29 @@
 
 @isTest
 public with sharing class NC_Graduated_CommissionTest {
-   
+   @isTest
+    public static void calculateBoutyEarnedSingleTrue(){
+        
+        List<NC_Lease__c> ls = TestDataFactory.createLeaseList();
+        
+        
+        for(NC_Lease__c l : ls){
+            
+            Decimal earnedbounty = NC_Graduated_Commission.calculateBoutyEarned(l);
+            
+            System.debug('nc0.5>>'+earnedbounty+' - '+l.L_Start_Date__c+' - '+l.L_End_Date__c);
+            
+            if(l.L_Start_Date__c == Date.valueOf('2019-01-01')){
+                
+                System.assertEquals(300, earnedbounty);
+            }
+            else{
+                System.assertEquals(0, earnedbounty);
+                
+            }
+            
+        }    
+    }
     @isTest
     public static void calculateCommissionSingleTrue(){
         
@@ -57,18 +79,18 @@ public with sharing class NC_Graduated_CommissionTest {
         System.debug('nc8.57>>'+NC_Graduated_Commission.calculateCommission(l[0]));
         
         //current Earned percent: 25
-        System.assertEquals((100 * 25.00).setScale(2), NC_Graduated_Commission.calculateCommission(l[0]));
+        System.assertEquals(((100 * 25.00)+300).setScale(2), NC_Graduated_Commission.calculateCommission(l[0]));
         
         gc.GC_Goal__c		= 27000;
         update gc;
         //current Earned percent: 74.07
-        System.assertEquals((150 * 74.0740741).setScale(2), NC_Graduated_Commission.calculateCommission(l[0]));
+        System.assertEquals(((150 * 74.0740741).setScale(2)+300), NC_Graduated_Commission.calculateCommission(l[0]));
         
               
         gc.GC_Goal__c		= 100000;
         update gc;
         //current Earned percent: 20
-        System.assertEquals(0, NC_Graduated_Commission.calculateCommission(l[0]));
+        System.assertEquals(300, NC_Graduated_Commission.calculateCommission(l[0]));
         
 
         

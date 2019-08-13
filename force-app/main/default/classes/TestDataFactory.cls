@@ -74,6 +74,15 @@ public class TestDataFactory {
         
         insert u;
         
+        NC_Bounty__c b = new NC_Bounty__c();
+        b.Unit__c = u.Id;
+        b.B_Start_Date__c 	= Date.valueOf('2019-01-01');
+        b.B_End_Date__c		= Date.valueOf('2019-07-01');
+        b.Value__c			= 300;
+        b.Measure_Unit__c	= 'Fixed quantity';
+        
+        insert b;
+        
         return u;
     }
 

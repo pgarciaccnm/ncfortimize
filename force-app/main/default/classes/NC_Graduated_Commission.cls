@@ -24,7 +24,28 @@ public with sharing class NC_Graduated_Commission {
         return gc;
         
     }
+    
+    /**
+     * Retuns the Earned Bounty base on Lease
+     * */
+    public static Decimal calculateBoutyEarned(NC_Lease__c lease){
+        
+		List<NC_Bounty__c> uBounties = [Select id, Value__c from NC_Bounty__c where Unit__c = :lease.Unit__c and B_Start_Date__c <= :lease.L_Start_Date__c and B_End_Date__c > :lease.L_End_Date__c];       
+        
+        Decimal bountyAmount = 0.0;
+        
+        if(uBounties.size() > 0){
+            
+            bountyAmount = (decimal) uBounties[0].Value__c;
+            
+        }
+        
+        return bountyAmount; 
+    }
 
+    /*
+     * Calculate the earned value based on Graduated Commission
+     * */
     public static Decimal calculateCommission(NC_Lease__c lease){
 
         NC_Graduated_Commission__c gc = getCurrentGraduatedCommission(lease);
@@ -37,7 +58,7 @@ public with sharing class NC_Graduated_Commission {
         
         Decimal earnedRate = (selectedTiers.size() > 0)?(decimal) selectedTiers[0].gct_target_earned_rate__c: 0;
         
-        return (Decimal) (accumulatedPercentage * earnedRate).setScale(2);
+        return (Decimal) ((accumulatedPercentage * earnedRate) + calculateBoutyEarned(lease) ).setScale(2);
 
     }
     

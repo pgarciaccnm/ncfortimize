@@ -15,13 +15,26 @@
 
 public with sharing class NC_LeaseTest {
 
+    @isTest
+    public static void setAmountTrue(){
+        
+        List<NC_Lease__c> lList = createLList();
+        
+        lList = NC_Lease.setAmount(lList);
+        
+        system.debug('nc6.6>>'+lList);
+        
+        System.assertEquals(450000.00, lList[0].L_Amount__c);
+        
+        System.assertEquals(636000.00, lList[1].L_Amount__c);
+    }
 
     @isTest
     public static void isValidBulkTrue(){
         
         Test.startTest();
         
-        insert createLList();
+       
         
         NC_Lease__c insertedGC = createLList()[0];
         
@@ -33,16 +46,16 @@ public with sharing class NC_LeaseTest {
 
         NC_Lease__c l1 = new NC_Lease__c();
 
-        l1.L_Start_Date__c = Date.valueOf('2019-09-01');
-        l1.L_End_Date__c = Date.valueOf('2019-09-30');
+        l1.L_Start_Date__c = Date.valueOf('2020-09-01');
+        l1.L_End_Date__c = Date.valueOf('2020-09-30');
         l1.Contact__c = c;
         
 
         lList.add(l1);
 
         NC_Lease__c l2 = new NC_Lease__c();
-        l2.L_Start_Date__c = Date.valueOf('2019-10-01');
-        l2.L_End_Date__c = Date.valueOf('2019-10-31');
+        l2.L_Start_Date__c = Date.valueOf('2020-10-01');
+        l2.L_End_Date__c = Date.valueOf('2020-10-31');
         l2.Contact__c = c;
       
 
@@ -62,11 +75,6 @@ public with sharing class NC_LeaseTest {
     @isTest
     public static void isValidBulkFalse(){
         
-        Test.startTest();
-        
-        insert createLList();
-
-        Test.stopTest();
         
         List<NC_Lease__c> lList = NC_Lease.getDup(createLList());
         
@@ -94,8 +102,7 @@ public with sharing class NC_LeaseTest {
            
            gc.Contact__c = c.Id;
        }
-               
-       insert gcInsertedList;
+
 
         Test.stopTest();
        
@@ -110,7 +117,7 @@ public with sharing class NC_LeaseTest {
         lList.add(l1);
 
        
-      System.assertEquals(lList, NC_Lease.getDup(lList));
+      System.assertEquals(new List<NC_Lease__c>(), NC_Lease.getDup(lList));
 
    }
     

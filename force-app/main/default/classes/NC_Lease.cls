@@ -15,7 +15,7 @@ public with sharing class NC_Lease {
 
 
     public static Decimal getAllRevenueByContact(NC_Graduated_Commission__c gc){
-System.debug('nc9.0>>'+gc);
+
         List<NC_Lease__c> agLease = [Select L_Amount__c, Contact__c from NC_Lease__c where L_Start_Date__c <= :gc.GD_Start_Date__c and L_End_Date__c <= :gc.GC_End_Date__c and Contact__c =: gc.Contact__c];
 
         Decimal currentTotal = 0;
@@ -35,7 +35,7 @@ System.debug('nc9.0>>'+gc);
     }
 
     /**
-    This calculates the total cost based of leasing unit
+    This calculates the total cost based of leased unit
      */
     public static Decimal calculateTotalCost(NC_Lease__c lease){
 
@@ -46,7 +46,41 @@ System.debug('nc9.0>>'+gc);
         return (numberDaysDue * unit.Revenue__c);
 
     }
+    
+    public static List<NC_Lease__c> setEarned(List<NC_Lease__c> leaseList){
+        
+        return null;
+    }
+    
+    /**
+     * Set the Total amount per lease
+     * */
+    public static List<NC_Lease__c> setAmount(List<NC_Lease__c> leaseList){
+        
+        Set<Id> unitIds = new Set<Id>();
+        
+        for(NC_Lease__c lease : leaseList){
+            
+            unitIds.add(lease.Unit__c);
+        }
+        
+        Map<ID, NC_Unit__c> unitMap = new Map<ID, NC_Unit__c>([Select id, Revenue__c from NC_Unit__c Where Id in :unitIds]);
+        
+        for(NC_Lease__c lease : leaseList){
+            
+            Integer numberDaysDue = lease.L_Start_Date__c.daysBetween(lease.L_End_Date__c);
+            
+            lease.L_Amount__c = numberDaysDue * unitMap.get(lease.Unit__c).Revenue__c;
+        }
+        
+        return leaseList;
 
+        
+    }
+
+    /**
+     * Retuns dups Lease
+     * */
     public static List<NC_Lease__c> getDup(List<NC_Lease__c> newLs){
         
 
@@ -59,6 +93,9 @@ System.debug('nc9.0>>'+gc);
        
     }
      
+    /**
+     * Find and returns dups with overlap based on dates and contact in two List
+     * */
     public static List<NC_Lease__c> haskOverlap(List<NC_Lease__c> existLs, List<NC_Lease__c> newLs){
         
         

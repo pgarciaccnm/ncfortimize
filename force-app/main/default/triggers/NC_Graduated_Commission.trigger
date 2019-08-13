@@ -4,7 +4,7 @@ trigger NC_Graduated_Commission on NC_Graduated_Commission__c (before insert) {
     
     List<NC_Graduated_Commission__c> newGCs = Trigger.New;
     
-    if(dubGCs.size() > 0){
+    if(dubGCs.size() > 0){ 
         
         for(NC_Graduated_Commission__c newGC : newGCs){
             
