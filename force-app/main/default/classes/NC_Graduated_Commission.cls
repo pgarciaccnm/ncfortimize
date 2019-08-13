@@ -4,7 +4,7 @@
  * @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
  * @Group              : 
  * @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
- * @Last Modified On   : 2019-08-12, 4:30:33 p.m.
+ * @Last Modified On   : 2019-08-12, 10:30:12 p.m.
  * @Modification Log   : 
  *==============================================================================
  * Ver         Date                     Author      		      Modification
@@ -14,10 +14,12 @@
 public with sharing class NC_Graduated_Commission {
 
 
-    
+    /**
+    *   Return the Graduated Commission based on the Lease period of date
+    * */
     public static NC_Graduated_Commission__c getCurrentGraduatedCommission(NC_Lease__c lease){
 
-        NC_Graduated_Commission__c gc = [select id, GC_Goal__c from NC_Graduated_Commission__c where GD_Start_Date__c <= :lease.L_Start_Date__c and GC_End_Date__c > :lease.L_Start_Date__c and Contact__c = :lease.Contact__c Limit 1 ];
+        NC_Graduated_Commission__c gc = [select id, GC_Goal__c, Contact__c, GD_Start_Date__c, GC_End_Date__c from NC_Graduated_Commission__c where GD_Start_Date__c <= :lease.L_Start_Date__c and GC_End_Date__c > :lease.L_Start_Date__c and Contact__c = :lease.Contact__c Limit 1 ];
 
         return gc;
         
@@ -27,17 +29,15 @@ public with sharing class NC_Graduated_Commission {
 
         NC_Graduated_Commission__c gc = getCurrentGraduatedCommission(lease);
         
-        Decimal currenttotal = NC_Lease.getAllRevenueByContact( gc);
+        Decimal currenttotal = NC_Lease.getAllRevenueByContact(gc);
 
         Decimal accumulatedPercentage = (currenttotal * 100)/gc.GC_Goal__c;
 
-        GC_Tier__c selectedTier = [select id, gct_target_earned_rate__c, gct_target_achieved_low__c, gct_target_achieved_high__c, 
-            graduated_commission__r.Gc_goal__c,graduated_commission__r.GD_Start_Date__c, graduated_commission__r.GC_End_Date__c from gc_tier__c
-            where   gct_target_achieved_low__c <=:accumulatedPercentage and gct_target_achieved_high__c > :accumulatedPercentage ][0];
-
-        System.debug('nc4.4>>'+selectedTier);
+        List<GC_Tier__c> selectedTiers = [select id, gct_target_earned_rate__c from gc_tier__c where Graduated_Commission__c = :gc.Id and gct_target_achieved_low__c <=:accumulatedPercentage and gct_target_achieved_high__c > :accumulatedPercentage ];
         
-        return 40.00;
+        Decimal earnedRate = (selectedTiers.size() > 0)?(decimal) selectedTiers[0].gct_target_earned_rate__c: 0;
+        
+        return (Decimal) (accumulatedPercentage * earnedRate).setScale(2);
 
     }
     

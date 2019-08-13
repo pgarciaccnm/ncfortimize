@@ -15,8 +15,8 @@ public with sharing class NC_Lease {
 
 
     public static Decimal getAllRevenueByContact(NC_Graduated_Commission__c gc){
-
-        List<NC_Lease__c> agLease = [Select L_Amount__c from NC_Lease__c where L_Start_Date__c <= :gc.GD_Start_Date__c and L_End_Date__c <= :gc.GC_End_Date__c and Contact__c =: gc.Contact__c];
+System.debug('nc9.0>>'+gc);
+        List<NC_Lease__c> agLease = [Select L_Amount__c, Contact__c from NC_Lease__c where L_Start_Date__c <= :gc.GD_Start_Date__c and L_End_Date__c <= :gc.GC_End_Date__c and Contact__c =: gc.Contact__c];
 
         Decimal currentTotal = 0;
 

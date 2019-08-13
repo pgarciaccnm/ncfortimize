@@ -1,4 +1,4 @@
-trigger NC_Graduated_Commission on NC_Graduated_Commission__c (before insert, before update) {
+trigger NC_Graduated_Commission on NC_Graduated_Commission__c (before insert) {
         
     List<NC_Graduated_Commission__c> dubGCs = NC_Graduated_Commission.isValid(Trigger.New);
     
