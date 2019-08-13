@@ -11,12 +11,32 @@
  *==============================================================================
  * 1.0    2019-08-11, 10:30:14 a.m.   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
 **/
-@isTest
 
+@isTest
 public with sharing class NC_Graduated_CommissionTest {
    
 
-     @isTest
+    @isTest
+    public static void getCurrentGraduatedCommissionSingleTrue(){
+               
+        List<NC_Lease__c> l = TestDataFactory.createLeaseList();
+        
+        Contact c = new Contact(Id = l[0].Contact__c);
+
+        NC_Graduated_Commission__c gc = new NC_Graduated_Commission__c();
+        gc.GD_Start_Date__c = Date.valueOf('2019-01-01');
+        gc.GC_End_Date__c	= Date.valueOf('2019-12-31');
+        gc.Contact__c		= c.Id;
+        gc.GC_Goal__c		= 200000;
+        
+        insert gc;
+
+       NC_Graduated_Commission.getCurrentGraduatedCommission(l[0]);
+        
+        System.debug('nc8.5>>'+NC_Graduated_Commission.getCurrentGraduatedCommission(l[0]));
+    }
+    
+    @isTest
     public static void isValidBulkTrue(){
         
         Test.startTest();

@@ -14,6 +14,7 @@
 public with sharing class NC_Graduated_Commission {
 
 
+    
     public static NC_Graduated_Commission__c getCurrentGraduatedCommission(NC_Lease__c lease){
 
         NC_Graduated_Commission__c gc = [select id, GC_Goal__c from NC_Graduated_Commission__c where GD_Start_Date__c <= :lease.L_Start_Date__c and GC_End_Date__c > :lease.L_Start_Date__c and Contact__c = :lease.Contact__c Limit 1 ];
@@ -22,7 +23,7 @@ public with sharing class NC_Graduated_Commission {
         
     }
 
-    public static void calculateCommission(NC_Lease__c lease){
+    public static Decimal calculateCommission(NC_Lease__c lease){
 
         NC_Graduated_Commission__c gc = getCurrentGraduatedCommission(lease);
         
@@ -35,8 +36,11 @@ public with sharing class NC_Graduated_Commission {
             where   gct_target_achieved_low__c <=:accumulatedPercentage and gct_target_achieved_high__c > :accumulatedPercentage ][0];
 
         System.debug('nc4.4>>'+selectedTier);
+        
+        return 40.00;
 
     }
+    
     /**
      * 
      * This validates the overlapping Dates

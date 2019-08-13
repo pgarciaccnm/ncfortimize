@@ -139,7 +139,9 @@ public with sharing class NC_LeaseTest {
    @isTest
    public static void calculateTotalCostSingleFalse(){
 
-       NC_Lease__c l = createLList()[0];
+       NC_Lease__c l = TestDataFactory.createLeaseList()[0];
+       
+       System.debug('nc5.5>>'+l);
 
        Decimal totalCost = NC_Lease.calculateTotalCost(l);
 
@@ -159,21 +161,19 @@ public with sharing class NC_LeaseTest {
     
     @isTest
     public static void getAllRevenueByContactSingleTrue(){
-       
+        
+        List<NC_Lease__c> l = TestDataFactory.createLeaseList();
+        
+        Contact c = new Contact(Id = l[0].Contact__c);
+
         NC_Graduated_Commission__c gc = new NC_Graduated_Commission__c();
         gc.GD_Start_Date__c = Date.valueOf('2019-01-01');
         gc.GC_End_Date__c	= Date.valueOf('2019-12-31');
-        gc.Contact__c		= createContact().Id;
+        gc.Contact__c		= c.Id;
+
+        System.debug('nc6.4>>'+[Select id, L_Amount__c, Contact__c from NC_Lease__c]);
         
-        Test.startTest();
-        insert createLList();
-        
-        
-        System.debug('nc6.5>>'+NC_Lease.getAllRevenueByContact(gc));
-        
-        Test.stopTest();
-        
-        System.assert(true);
+        System.assertEquals(20000, NC_Lease.getAllRevenueByContact(gc));
     }
     
     @isTest
@@ -186,47 +186,10 @@ public with sharing class NC_LeaseTest {
         return c;
     }
 
-    @isTest
+
    public static List<NC_Lease__c> createLList(){
-
-        Contact c = new Contact(FirstName = 'Pedro', LastName='Garcia');
-
-        insert c;
-
-        NC_Property__c p = new NC_Property__c();
-
-        p.Contact__c = c.Id;
-
-        insert p;
-
-        NC_Unit__c u = new NC_Unit__c();
-        u.Property__c = p.Id;
-        u.Revenue__c  = 3000;
-
-        insert u;
-        
-        List<NC_Lease__c> lList = New List<NC_Lease__c>();
-
-        NC_Lease__c l1 = new NC_Lease__c();
-
-        l1.L_Start_Date__c = Date.valueOf('2019-01-01');
-        l1.L_End_Date__c = Date.valueOf('2019-05-31');
-        l1.Contact__c = c.Id;
-        l1.Unit__c = u.Id;
-       	l1.L_Amount__c	= NC_Lease.calculateTotalCost( l1);
-
-        lList.add(l1);
-
-        NC_Lease__c l2 = new NC_Lease__c();
-        l2.L_Start_Date__c = Date.valueOf('2019-06-01');
-        l2.L_End_Date__c = Date.valueOf('2019-06-30');
-        l2.Contact__c = c.Id;
-        l2.Unit__c = u.Id;
-       l2.L_Amount__c	= NC_Lease.calculateTotalCost( l2);
-
-        lList.add(l2);
-
-        return lList;
+       
+       return TestDataFactory.createLeaseList();
 
 
    }
