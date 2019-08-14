@@ -7,12 +7,12 @@ The purpose of this project is to prove my skills and experience as an SF develo
 #National Commercial business
 NC manages and leasing properties.
 
-Rep manages many Properties.
-Each property has many Units.
-The Rep leases the Units based on the Unit day cost.
-The commission earned by Rep is based on Graduated Commission model.
-The GC is associated with a period of time (year), Property Goal Amounts and has many tiers which define to the Rep performance.
-The Property Goal Amount is the goal must be reached by Rep in the period of GC.
+Rep manages many Properties.<br>
+Each property has many Units.<br>
+The Rep leases the Units based on the Unit day cost.<br>
+The commission earned by Rep is based on Graduated Commission model.<br>
+The GC is associated with a period of time (year), Property Goal Amounts and has many tiers which define to the Rep performance.<br>
+The Property Goal Amount is the goal must be reached by Rep in the period of GC.<br>
 
 
 There are two types of developer processes or models supported in Salesforce Extensions for VS Code and Salesforce CLI. These models are explained below. Each model offers pros and cons and is fully supported.
