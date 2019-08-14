@@ -4,7 +4,7 @@
  * @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
  * @Group              : 
  * @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
- * @Last Modified On   : 2019-08-11, 2:40:46 p.m.
+ * @Last Modified On   : 2019-08-13, 2:11:28 p.m.
  * @Modification Log   : 
  *==============================================================================
  * Ver         Date                     Author      		      Modification
@@ -14,6 +14,7 @@
 
 @isTest
 public with sharing class NC_Graduated_CommissionTest {
+    /*
    @isTest
     public static void calculateBoutyEarnedSingleTrue(){
         
@@ -269,4 +270,5 @@ public with sharing class NC_Graduated_CommissionTest {
 
 
    }
+   */
 }

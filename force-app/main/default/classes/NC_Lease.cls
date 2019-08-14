@@ -4,7 +4,7 @@
  * @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
  * @Group              : 
  * @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
- * @Last Modified On   : 2019-08-12, 4:29:41 p.m.
+ * @Last Modified On   : 2019-08-14, 12:47:17 a.m.
  * @Modification Log   : 
  *==============================================================================
  * Ver         Date                     Author      		      Modification
@@ -14,9 +14,27 @@
 public with sharing class NC_Lease {
 
 
+    public static Map<Id, Decimal> getAllrevenueByGC(List<NC_Graduated_Commission__c> gcs){
+        
+        Set<Id> gcIds = new Set<Id>();
+        
+        for(NC_Graduated_Commission__c gc : gcs){
+            gcIds.add(gc.Id);
+        }
+        
+        Map<Id, Decimal> gcMap = new Map<Id, Decimal>();
+        
+        for(NC_Lease__c lease : [Select Id, Graduated_Commission__c, L_Amount__c from NC_Lease__c where Graduated_Commission__c = :gcIds]){
+            
+            gcMap.put(lease.Graduated_Commission__c, (decimal) lease.L_Amount__c);
+        }
+        
+        
+        return gcMap;
+    }
     public static Decimal getAllRevenueByContact(NC_Graduated_Commission__c gc){
 
-        List<NC_Lease__c> agLease = [Select L_Amount__c, Contact__c from NC_Lease__c where L_Start_Date__c <= :gc.GD_Start_Date__c and L_End_Date__c <= :gc.GC_End_Date__c and Contact__c =: gc.Contact__c];
+        List<NC_Lease__c> agLease = [Select L_Amount__c from NC_Lease__c where Graduated_Commission__c = :gc.Id ];
 
         Decimal currentTotal = 0;
 
@@ -47,9 +65,68 @@ public with sharing class NC_Lease {
 
     }
     
+    
+    /**
+    * Set the Graduated Commission after the Lease is saved
+     */
     public static List<NC_Lease__c> setEarned(List<NC_Lease__c> leaseList){
         
-        return null;
+        Set<Id> gcIds = new Set<Id>();
+
+        Map<Id, NC_Lease__c> gcLease = new Map<Id, NC_Lease__c>();
+
+        //Group the Lease by GC
+        for(NC_Lease__c lease : leaseList){
+
+            gcLease.put(lease.Graduated_Commission__c, lease);
+
+        }
+
+        gcIds = gcLease.keySet();
+
+        Map<Id, NC_Graduated_Commission__c> gcMap = new Map<Id, NC_Graduated_Commission__c>([Select Id, GC_Goal__c, (Select Id,  GCT_Target_Achieved_Low__c, GCT_Target_Achieved_High__c, GCT_Target_Earned_Rate__c  from GC_Tiers__r) from NC_Graduated_Commission__c where Id in :gcIds]);
+
+        System.debug('nc1.2>>'+gcMap);
+        
+        System.debug('nc1.3>>'+gcLease);
+
+
+        //Collect the Current Total by GC
+        List<AggregateResult> aggregateResultList = [select  sum(l_amount__c) currenttotal, Graduated_Commission__c from nc_lease__c  where Graduated_Commission__c in :gcIds group by Graduated_Commission__c ];
+        
+        if(aggregateResultList != null && aggregateResultList.size() > 0){
+           
+            for(AggregateResult aggr:aggregateResultList){  
+	
+                Decimal accumulatedPercentage = 0;
+                
+                if(gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Goal__c != null){
+                    System.debug('nc1.4>>'+aggr.get('currenttotal')+'-'+aggr.get('Graduated_Commission__c')+'-'+gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Goal__c);
+                	accumulatedPercentage = ((decimal) aggr.get('currenttotal') * 100)/ (decimal) gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Goal__c;
+                }
+                
+system.debug('nc1.41>>'+gcMap.get((String) aggr.get('Graduated_Commission__c')));
+                for(GC_Tier__c tier : gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Tiers__r){
+System.debug('nc1.5>>'+tier+'-'+accumulatedPercentage +'-'+tier.GCT_Target_Achieved_Low__c+'-'+tier.GCT_Target_Achieved_High__c);
+                    if(accumulatedPercentage >= tier.GCT_Target_Achieved_Low__c  && accumulatedPercentage < tier.GCT_Target_Achieved_High__c ){
+System.debug('nc1.6>>'+(tier.GCT_Target_Earned_Rate__c * accumulatedPercentage));
+                        gcLease.get((String) aggr.get('Graduated_Commission__c')).L_Earned__c = (decimal) tier.GCT_Target_Earned_Rate__c * accumulatedPercentage;
+
+                    }
+                    else if(accumulatedPercentage >= tier.GCT_Target_Achieved_Low__c  && accumulatedPercentage > tier.GCT_Target_Achieved_High__c){
+
+                        gcLease.get((String) aggr.get('Graduated_Commission__c')).L_Earned__c = (decimal) tier.GCT_Target_Earned_Rate__c * accumulatedPercentage;
+                    }
+                    else{
+System.debug('nc1.9>>'+(tier.GCT_Target_Earned_Rate__c * accumulatedPercentage));
+                        gcLease.get((String) aggr.get('Graduated_Commission__c')).L_Earned__c = 0;
+                    }
+                }    
+
+            }
+
+        }
+        return gcLease.values();
     }
     
     /**
@@ -59,18 +136,28 @@ public with sharing class NC_Lease {
         
         Set<Id> unitIds = new Set<Id>();
         
+        Set<Id> gcIds = new Set<Id>();
+        
         for(NC_Lease__c lease : leaseList){
             
             unitIds.add(lease.Unit__c);
+            gcIds.add(lease.Graduated_Commission__c);
         }
         
+        Map<Id, NC_Graduated_Commission__c> gcMap = new Map<Id, NC_Graduated_Commission__c>([Select id, GD_Start_Date__c, GC_End_Date__c from NC_Graduated_Commission__c where Id in :gcIds ]);
+        
+
         Map<ID, NC_Unit__c> unitMap = new Map<ID, NC_Unit__c>([Select id, Revenue__c from NC_Unit__c Where Id in :unitIds]);
         
         for(NC_Lease__c lease : leaseList){
+           
+            Integer numberDaysDue 	= gcMap.get(lease.Graduated_Commission__c).GD_Start_Date__c.daysBetween(gcMap.get(lease.Graduated_Commission__c).GC_End_Date__c);
             
-            Integer numberDaysDue = lease.L_Start_Date__c.daysBetween(lease.L_End_Date__c);
+            lease.L_Start_Date__c 	= gcMap.get(lease.Graduated_Commission__c).GD_Start_Date__c;
             
-            lease.L_Amount__c = numberDaysDue * unitMap.get(lease.Unit__c).Revenue__c;
+            lease.L_End_Date__c		= gcMap.get(lease.Graduated_Commission__c).GC_End_Date__c;
+            System.debug('nc9.9>>'+numberDaysDue+'-'+unitMap.get(lease.Unit__c).Revenue__c);
+            lease.L_Amount__c 		= numberDaysDue * unitMap.get(lease.Unit__c).Revenue__c;
         }
         
         return leaseList;
@@ -83,13 +170,33 @@ public with sharing class NC_Lease {
      * */
     public static List<NC_Lease__c> getDup(List<NC_Lease__c> newLs){
         
+            Set<Id> gcIds = new Set<Id>();
 
-            List<NC_Lease__c> existLs = [Select Id, Contact__c, L_Start_Date__c, L_End_Date__c from NC_Lease__c];
+            for(NC_Lease__c lease : newLs){
+                gcIds.add(lease.Graduated_Commission__c);
+            }
             
-            List<NC_Lease__c>  checkedOverlap = haskOverlap(existLs, newLs);
-            
+            Map<String, NC_Lease__c> existMap = new Map<String, NC_Lease__c>();
+
+            for(NC_Lease__c lease : [Select Graduated_Commission__c from NC_Lease__c where Graduated_Commission__c in :gcIds]){
+
+                existMap.put(lease.Graduated_Commission__c, lease );
+            }
+
+            if(existMap.size() > 0){
+
+                for(NC_Lease__c newLease :newLs){
+
+                    if(existMap.get(newLease.Graduated_Commission__c) != null){
+
+                        newLease.addError('There is another leased with te same Graduated Commission');
+                    }
+                }
+
+            }
+  
  
-        return checkedOverlap;
+        return newLs;
        
     }
      
@@ -104,19 +211,7 @@ public with sharing class NC_Lease {
              for (NC_Lease__c existL : existLs) {
                 for (NC_Lease__c newL : newLs) {
 
-                    if (
-                        existL.Contact__c == newL.Contact__c &&
-                        (
-                            (
-                                newL.L_Start_Date__c >= existL.L_Start_Date__c &&
-                                newL.L_Start_Date__c <= existL.L_End_Date__c
-                            ) ||
-                            (
-                                newL.L_End_Date__c >= existL.L_Start_Date__c &&
-                                newL.L_End_Date__c <= existL.L_End_Date__c
-                            )
-                        )
-                    ) {
+                    if (existL.id == newL.id) {
                         System.debug('nc2.3>>'+newL);
                         newL.addError('The Contact already has a Graduated Commission on specified dates!');
                         

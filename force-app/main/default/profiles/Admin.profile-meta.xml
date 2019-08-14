@@ -87,7 +87,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>NC_Lease__c.Contact__c</field>
+        <field>NC_Lease__c.Graduated_Commission__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

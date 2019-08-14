@@ -4,7 +4,7 @@
  * @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
  * @Group              : 
  * @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
- * @Last Modified On   : 2019-08-12, 10:30:12 p.m.
+ * @Last Modified On   : 2019-08-13, 2:15:08 p.m.
  * @Modification Log   : 
  *==============================================================================
  * Ver         Date                     Author      		      Modification
@@ -19,9 +19,8 @@ public with sharing class NC_Graduated_Commission {
     * */
     public static NC_Graduated_Commission__c getCurrentGraduatedCommission(NC_Lease__c lease){
 
-        NC_Graduated_Commission__c gc = [select id, GC_Goal__c, Contact__c, GD_Start_Date__c, GC_End_Date__c from NC_Graduated_Commission__c where GD_Start_Date__c <= :lease.L_Start_Date__c and GC_End_Date__c > :lease.L_Start_Date__c and Contact__c = :lease.Contact__c Limit 1 ];
-
-        return gc;
+      
+        return null;
         
     }
     
@@ -42,6 +41,7 @@ public with sharing class NC_Graduated_Commission {
         
         return bountyAmount; 
     }
+    
 
     /*
      * Calculate the earned value based on Graduated Commission

@@ -77,11 +77,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>NC_Lease__c.L_Amount__c</fields>
-        <relatedList>NC_UnitLeaseAssociation__c.Unit__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <relatedList>NC_Bounty__c.Unit__c</relatedList>
     </relatedLists>
     <relatedLists>

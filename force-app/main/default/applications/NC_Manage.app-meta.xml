@@ -11,8 +11,9 @@
     <label>NC Manage</label>
     <navType>Standard</navType>
     <tabs>standard-Contact</tabs>
-    <tabs>NC_UnitLeaseAssociation__c</tabs>
     <tabs>NC_Unit__c</tabs>
+    <tabs>NC_Lease__c</tabs>
+    <tabs>NC_Graduated_Commission__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>NC_Manage_UtilityBar</utilityBar>
 </CustomApplication>

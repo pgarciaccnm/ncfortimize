@@ -19,6 +19,10 @@
                 <behavior>Readonly</behavior>
                 <field>L_Earned__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Graduated_Commission__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
