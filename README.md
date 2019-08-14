@@ -1,14 +1,23 @@
 # NC Manage Salesforce App
 
-This project 
+The purpose of this project is to prove my skills and experience as an SF developer.
 
-## Part 1: Choosing a Development Model
+## Part 1: Understanding the Business Model
+
+#National Commercial business
+NC manages and leasing properties.
+
+Rep manages many Properties.
+Each property has many Units.
+The Rep leases the Units based on the Unit day cost.
+The commission earned by Rep is based on Graduated Commission model.
+The GC is associated with a period of time (year), Property Goal Amounts and has many tiers which define to the Rep performance.
+The Property Goal Amount is the goal must be reached by Rep in the period of GC.
+
 
 There are two types of developer processes or models supported in Salesforce Extensions for VS Code and Salesforce CLI. These models are explained below. Each model offers pros and cons and is fully supported.
 ### Assumssions
-<ol>
-<li>The Unit cost is per day</li>
-</ol>
+
 ### Package Development Model
 
 The package development model allows you to create self-contained applications or libraries that are deployed to your org as a single package. These packages are typically developed against source-tracked orgs called scratch orgs. This development model is geared toward a more modern type of software development process that uses org source tracking, source control, and continuous integration and deployment.
