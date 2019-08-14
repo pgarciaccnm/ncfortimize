@@ -2,7 +2,7 @@
 
 The purpose of this project is to prove my skills and experience as an SF developer.
 
-## Part 1: Understanding the Business Model
+## Understanding the Business Model
 
 <strong>National Commercial business</strong>
 NC manages and leasing properties.
