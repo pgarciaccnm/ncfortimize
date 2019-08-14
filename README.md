@@ -14,7 +14,8 @@ The commission earned by Rep is based on Graduated Commission model.<br>
 The GC is associated with a period of time (year), Property Goal Amounts and has many tiers which define to the Rep performance.<br>
 The Property Goal Amount is the goal must be reached by Rep in the period of GC.<br>
 
-
+### ERD
+<img src="https://github.com/pgarciaccnm/ncfortimize/blob/ncv2/ERD_NCFORTIMIZE.png" >
 
 ### Assumssions
 Each Unit must be managed by one Rep in a period of GC.<br>
