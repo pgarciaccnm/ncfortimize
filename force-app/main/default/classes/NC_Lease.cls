@@ -32,7 +32,8 @@ public with sharing class NC_Lease {
         
         return gcMap;
     }
-    public static Decimal getAllRevenueByContact(NC_Graduated_Commission__c gc){
+ /*
+        public static Decimal getAllRevenueByContact(NC_Graduated_Commission__c gc){
 
         List<NC_Lease__c> agLease = [Select L_Amount__c from NC_Lease__c where Graduated_Commission__c = :gc.Id ];
 
@@ -50,7 +51,7 @@ public with sharing class NC_Lease {
             }
         }
         return currentTotal;
-    }
+    } 
 
     /**
     This calculates the total cost based of leased unit
@@ -86,46 +87,36 @@ public with sharing class NC_Lease {
 
         Map<Id, NC_Graduated_Commission__c> gcMap = new Map<Id, NC_Graduated_Commission__c>([Select Id, GC_Goal__c, (Select Id,  GCT_Target_Achieved_Low__c, GCT_Target_Achieved_High__c, GCT_Target_Earned_Rate__c  from GC_Tiers__r) from NC_Graduated_Commission__c where Id in :gcIds]);
 
-        System.debug('nc1.2>>'+gcMap);
-        
-        System.debug('nc1.3>>'+gcLease);
-
-
         //Collect the Current Total by GC
         List<AggregateResult> aggregateResultList = [select  sum(l_amount__c) currenttotal, Graduated_Commission__c from nc_lease__c  where Graduated_Commission__c in :gcIds group by Graduated_Commission__c ];
+                        
+        Decimal accumulatedPercentage = 0;
         
         if(aggregateResultList != null && aggregateResultList.size() > 0){
            
+
             for(AggregateResult aggr:aggregateResultList){  
-	
-                Decimal accumulatedPercentage = 0;
-                
+              
                 if(gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Goal__c != null){
-                    System.debug('nc1.4>>'+aggr.get('currenttotal')+'-'+aggr.get('Graduated_Commission__c')+'-'+gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Goal__c);
+
                 	accumulatedPercentage = ((decimal) aggr.get('currenttotal') * 100)/ (decimal) gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Goal__c;
-                }
-                
-system.debug('nc1.41>>'+gcMap.get((String) aggr.get('Graduated_Commission__c')));
-                for(GC_Tier__c tier : gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Tiers__r){
-System.debug('nc1.5>>'+tier+'-'+accumulatedPercentage +'-'+tier.GCT_Target_Achieved_Low__c+'-'+tier.GCT_Target_Achieved_High__c);
-                    if(accumulatedPercentage >= tier.GCT_Target_Achieved_Low__c  && accumulatedPercentage < tier.GCT_Target_Achieved_High__c ){
-System.debug('nc1.6>>'+(tier.GCT_Target_Earned_Rate__c * accumulatedPercentage));
-                        gcLease.get((String) aggr.get('Graduated_Commission__c')).L_Earned__c = (decimal) tier.GCT_Target_Earned_Rate__c * accumulatedPercentage;
 
-                    }
-                    else if(accumulatedPercentage >= tier.GCT_Target_Achieved_Low__c  && accumulatedPercentage > tier.GCT_Target_Achieved_High__c){
+                    for(GC_Tier__c tier : gcMap.get((String) aggr.get('Graduated_Commission__c')).GC_Tiers__r){
+   
+                        if(accumulatedPercentage >= tier.GCT_Target_Achieved_Low__c  && accumulatedPercentage < tier.GCT_Target_Achieved_High__c ){
 
-                        gcLease.get((String) aggr.get('Graduated_Commission__c')).L_Earned__c = (decimal) tier.GCT_Target_Earned_Rate__c * accumulatedPercentage;
-                    }
-                    else{
-System.debug('nc1.9>>'+(tier.GCT_Target_Earned_Rate__c * accumulatedPercentage));
-                        gcLease.get((String) aggr.get('Graduated_Commission__c')).L_Earned__c = 0;
-                    }
-                }    
-
+                            NC_Lease__c updateLease = gcLease.get((String) aggr.get('Graduated_Commission__c'));
+                            
+                            updateLease.L_Earned__c = (decimal) tier.GCT_Target_Earned_Rate__c * accumulatedPercentage;
+                        }
+    
+                    }    
+                }//end if 
             }
 
         }
+
+        
         return gcLease.values();
     }
     
@@ -156,8 +147,9 @@ System.debug('nc1.9>>'+(tier.GCT_Target_Earned_Rate__c * accumulatedPercentage))
             lease.L_Start_Date__c 	= gcMap.get(lease.Graduated_Commission__c).GD_Start_Date__c;
             
             lease.L_End_Date__c		= gcMap.get(lease.Graduated_Commission__c).GC_End_Date__c;
-            System.debug('nc9.9>>'+numberDaysDue+'-'+unitMap.get(lease.Unit__c).Revenue__c);
+            
             lease.L_Amount__c 		= numberDaysDue * unitMap.get(lease.Unit__c).Revenue__c;
+  
         }
         
         return leaseList;

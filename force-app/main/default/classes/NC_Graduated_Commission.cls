@@ -45,7 +45,7 @@ public with sharing class NC_Graduated_Commission {
 
     /*
      * Calculate the earned value based on Graduated Commission
-     * */
+     * 
     public static Decimal calculateCommission(NC_Lease__c lease){
 
         NC_Graduated_Commission__c gc = getCurrentGraduatedCommission(lease);

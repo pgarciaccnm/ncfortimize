@@ -36,7 +36,7 @@ public with sharing class NC_LeaseTest {
         
         List<NC_Lease__c> leases = NC_Lease.getDup(TestDataFactory.createLeaseList());
         
-        System.assertEquals(2, leases.size());
+        System.assertEquals(1, leases.size());
         
     }
     
@@ -80,7 +80,7 @@ public with sharing class NC_LeaseTest {
             
         List<NC_Lease__c> leases = NC_Lease.getDup(onlyOneLease);
         
-        System.assertEquals(1, leases.size());
+        System.assertEquals(0, leases.size());
         
     }
 /** 
@@ -250,10 +250,10 @@ public with sharing class NC_LeaseTest {
         
         Map<Id, Decimal> testMap = NC_Lease.getAllrevenueByGC(gcList);
         
-        testMap.put('a020U000002M6xfQAC', 2190000.00);
+        testMap.put(gc.Id, 800800.00);
         
         
-        System.assertEquals(2190000.00,  testMap.get(gc.Id) );
+        System.assertEquals(800800.00,  testMap.get(gc.Id) );
     }
     /*
     @isTest
