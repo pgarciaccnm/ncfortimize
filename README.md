@@ -15,15 +15,15 @@ The GC is associated with a period of time (year), Property Goal Amounts and has
 The Property Goal Amount is the goal must be reached by Rep in the period of GC.<br>
 Some units have a Bounty for a period of time. The Bounty will be added to the Rep commission is it's applicable.
 
-### ERD
+## ERD
 <img src="https://github.com/pgarciaccnm/ncfortimize/blob/ncv2/ERD_NCFORTIMIZE.png" >
 
-### Assumssions
+## Assumssions
 Each Unit must be managed by one Rep in a period of GC.<br>
 The period of leasing is the same that the GC associated.<br>
 
 
-### TODO
+## TODO
 Add the Bounty to the Rep commission. The Bounty table and relationship is completed.<br>
 Develop the Rest Resource.<br>
 Develop the Unit Test for more scenarios.<br>
