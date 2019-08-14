@@ -4,7 +4,7 @@ The purpose of this project is to prove my skills and experience as an SF develo
 
 ## Part 1: Understanding the Business Model
 
-#National Commercial business
+<strong>National Commercial business</strong>
 NC manages and leasing properties.
 
 Rep manages many Properties.<br>
