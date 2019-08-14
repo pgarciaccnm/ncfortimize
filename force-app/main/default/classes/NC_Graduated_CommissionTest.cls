@@ -14,108 +14,6 @@
 
 @isTest
 public with sharing class NC_Graduated_CommissionTest {
-    /*
-   @isTest
-    public static void calculateBoutyEarnedSingleTrue(){
-        
-        List<NC_Lease__c> ls = TestDataFactory.createLeaseList();
-        
-        
-        for(NC_Lease__c l : ls){
-            
-            Decimal earnedbounty = NC_Graduated_Commission.calculateBoutyEarned(l);
-            
-            System.debug('nc0.5>>'+earnedbounty+' - '+l.L_Start_Date__c+' - '+l.L_End_Date__c);
-            
-            if(l.L_Start_Date__c == Date.valueOf('2019-01-01')){
-                
-                System.assertEquals(300, earnedbounty);
-            }
-            else{
-                System.assertEquals(0, earnedbounty);
-                
-            }
-            
-        }    
-    }
-    @isTest
-    public static void calculateCommissionSingleTrue(){
-        
-
-        List<NC_Lease__c> l = TestDataFactory.createLeaseList();
-        
-        Contact c = new Contact(Id = l[0].Contact__c);
-
-        NC_Graduated_Commission__c gc = new NC_Graduated_Commission__c();
-        gc.GD_Start_Date__c = Date.valueOf('2019-01-01');
-        gc.GC_End_Date__c	= Date.valueOf('2019-12-31');
-        gc.Contact__c		= c.Id;
-        gc.GC_Goal__c		= 80000;
-        
-        insert gc;
-        
-        GC_Tier__c t1 = new  GC_Tier__c();
-        t1.GCT_Target_Achieved_Low__c 	= 25;
-        t1.GCT_Target_Achieved_High__c 	= 50;
-        t1.GCT_Target_Earned_Rate__c	= 100;
-        t1.Graduated_Commission__c		= gc.Id;
-        
-        insert t1;
-        
-        GC_Tier__c t2 = new  GC_Tier__c();
-        t2.GCT_Target_Achieved_Low__c 	= 50;
-        t2.GCT_Target_Achieved_High__c 	= 75;
-        t2.GCT_Target_Earned_Rate__c	= 150;
-        t2.Graduated_Commission__c		= gc.Id;
-        
-        insert t2;
-       
-        GC_Tier__c t3 = new  GC_Tier__c();
-        t3.GCT_Target_Achieved_Low__c 	= 75;
-        t3.GCT_Target_Achieved_High__c 	= 100;
-        t3.GCT_Target_Earned_Rate__c	= 200;
-        t3.Graduated_Commission__c		= gc.Id;
-        
-        insert t3;
-        System.debug('nc8.57>>'+NC_Graduated_Commission.calculateCommission(l[0]));
-        
-        //current Earned percent: 25
-        System.assertEquals(((100 * 25.00)+300).setScale(2), NC_Graduated_Commission.calculateCommission(l[0]));
-        
-        gc.GC_Goal__c		= 27000;
-        update gc;
-        //current Earned percent: 74.07
-        System.assertEquals(((150 * 74.0740741).setScale(2)+300), NC_Graduated_Commission.calculateCommission(l[0]));
-        
-              
-        gc.GC_Goal__c		= 100000;
-        update gc;
-        //current Earned percent: 20
-        System.assertEquals(300, NC_Graduated_Commission.calculateCommission(l[0]));
-        
-
-        
-    }
-
-    @isTest
-    public static void getCurrentGraduatedCommissionSingleTrue(){
-               
-        List<NC_Lease__c> l = TestDataFactory.createLeaseList();
-        
-        Contact c = new Contact(Id = l[0].Contact__c);
-
-        NC_Graduated_Commission__c gc = new NC_Graduated_Commission__c();
-        gc.GD_Start_Date__c = Date.valueOf('2019-01-01');
-        gc.GC_End_Date__c	= Date.valueOf('2019-12-31');
-        gc.Contact__c		= c.Id;
-        gc.GC_Goal__c		= 200000;
-        
-        insert gc;
-
-       	NC_Graduated_Commission.getCurrentGraduatedCommission(l[0]);
-        
-        System.debug('nc8.5>>'+NC_Graduated_Commission.getCurrentGraduatedCommission(l[0]));
-    }
     
     @isTest
     public static void isValidBulkTrue(){
@@ -174,6 +72,7 @@ public with sharing class NC_Graduated_CommissionTest {
 		System.assertEquals(ncList, ncList);
         
     }
+
     
    @isTest
    public static void haskOverlapBulkTrue(){
@@ -270,5 +169,5 @@ public with sharing class NC_Graduated_CommissionTest {
 
 
    }
-   */
+   
 }
