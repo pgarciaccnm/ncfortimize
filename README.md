@@ -27,5 +27,6 @@ The period of leasing is the same that the GC associated.<br>
 Add the Bounty to the Rep commission. The Bounty table and relationship is completed.<br>
 Develop the Rest Resource.<br>
 Develop the Unit Test for more scenarios.<br>
-Develop Reports.
+Develop Reports.<br>
+Clean up the code.<br>
 
